@@ -1,0 +1,6 @@
+pandas
+numpy 
+scikit-learn
+statistics
+imbalanced-learn
+-e .
