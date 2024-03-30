@@ -3,4 +3,5 @@ numpy
 scikit-learn
 statistics
 imbalanced-learn
+pickle5
 -e .

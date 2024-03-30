@@ -1,0 +1,8 @@
+data/MachineLearningCVE/Wednesday-workingHours.pcap_ISCX.csv filter=lfs diff=lfs merge=lfs -text
+data/MachineLearningCVE/Friday-WorkingHours-Afternoon-DDos.pcap_ISCX.csv filter=lfs diff=lfs merge=lfs -text
+data/MachineLearningCVE/Friday-WorkingHours-Afternoon-PortScan.pcap_ISCX.csv filter=lfs diff=lfs merge=lfs -text
+data/MachineLearningCVE/Friday-WorkingHours-Morning.pcap_ISCX.csv filter=lfs diff=lfs merge=lfs -text
+data/MachineLearningCVE/Monday-WorkingHours.pcap_ISCX.csv filter=lfs diff=lfs merge=lfs -text
+data/MachineLearningCVE/Thursday-WorkingHours-Afternoon-Infilteration.pcap_ISCX.csv filter=lfs diff=lfs merge=lfs -text
+data/MachineLearningCVE/Thursday-WorkingHours-Morning-WebAttacks.pcap_ISCX.csv filter=lfs diff=lfs merge=lfs -text
+data/MachineLearningCVE/Tuesday-WorkingHours.pcap_ISCX.csv filter=lfs diff=lfs merge=lfs -text
