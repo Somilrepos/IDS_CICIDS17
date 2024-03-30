@@ -1,6 +1,10 @@
 import os
 import sys
+import yaml
+from src.exception import CustomException
+from src.logger import logging
 from dataclasses import dataclass
+
 
 import pandas as pd
 import numpy as np
@@ -11,15 +15,17 @@ from sklearn.pipeline import Pipeline
 from imblearn.over_sampling import SMOTE
 from imblearn.under_sampling import RandomUnderSampler
 from statistics import variance
-from utils import choose, save_object
 
-from src.exception import CustomException
-from src.logger import logging
+from utils import choose, save_object, load_config
 
+@dataclass
 class DataTransformationConfig:
-    preprocessor_obj_file_path=os.path.join("artifacts","preprocessor.pkl")
-    SMOTE_pipeline_obj_file_path = os.path.join("artifacts","SMOTEpipeline.pkl")
-    variance_threshold=0.01
+    config = load_config()
+    preprocessor_obj_file_path=config['data-transformation']['preprocessor-obj-file-path']
+    SMOTE_pipeline_obj_file_path =config['data-transformation']['SMOTE-pipeline-obj-file-path']
+    variance_threshold=config['data-transformation']['variance-threshold']
+    SMOTE_sampling_strategy =config['data-transformation']['SMOTE-sampling_strategy']
+    undesampling_sampling_strategy =config['data-transformation']['undesampling-strategy']  
 
 class DataTransformation:
     def __init__(self):
@@ -74,7 +80,9 @@ class DataTransformation:
     
         except Exception as e:
             raise CustomException(e,sys)
-        
+
+
+
     def initiate_data_transformation(self, train_path, test_path):
         
         try:
@@ -136,12 +144,16 @@ class DataTransformation:
                 obj=pipeline
             )
 
-            logging.info("Preprocessing object saved.")
+            logging.info("SMOTEpipeline object saved.")
 
             return (
                 train_arr,
                 test_arr,
-                self.data_transformation_config.preprocessor_obj_file_path
+                self.data_transformation_config.preprocessor_obj_file_path,
+                self.data_transformation_config.SMOTE_pipeline_obj_file_path
             )
+            
+            
         except Exception as e:
+            
             raise CustomException(e,sys)

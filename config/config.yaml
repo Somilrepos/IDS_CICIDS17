@@ -1,0 +1,26 @@
+data-ingestion:
+  train-data-path: artifacts/train.csv
+  test-data-path: artifacts/test.csv
+  raw-data-path: data/MachineLearningCVE
+
+data-transformation:
+  preprocessor-obj-file-path: 'artifacts/preprocessor.pkl'
+  SMOTE-pipeline-obj-file-path: 'artifacts/SMOTEpipeline.pkl'
+  variance-threshold: 0.01
+  SMOTE-sampling-strategy: 0.3
+  undesampling-strategy: 0.5
+
+model-trainer:
+  model-path: 'artifacts/model.pkl'
+  random-seed: 42
+  test-size: 0.3
+  cross-validations: 10
+
+  random-forest:
+    max-depth : [5,6,7],
+    min-samples-split : [50000, 60000]
+    min-samples-leaf: [10000, 15000]
+    n-estimators : [60,80,100]
+  
+  scoring: ['accuracy','precision', 'recall','f1']
+  refit: ['f1']

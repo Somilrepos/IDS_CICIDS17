@@ -1,21 +1,24 @@
 import os
 import sys
+import yaml
 from src.exception import CustomException
 from src.logger import logging
+from dataclasses import dataclass
 
 import re
 import pandas as pd 
 import numpy as np
-from src.utils import getData, cleanData
 from sklearn.model_selection import train_test_split
-from dataclasses import dataclass
+
+from src.utils import getData, cleanData, load_config
 
 @dataclass
 class DataIngestionConfig:
-    train_data_path: str=os.path.join("artifacts", "train.csv")
-    test_data_path: str=os.path.join("artifacts", "test.csv")
-    raw_data_path: str=os.path.join("data", "MachineLearningCVE")
-
+    config = load_config()
+    train_data_path: str=config['data-ingestion']['train-data-path']
+    test_data_path: str=config['data-ingestion']['test-data-path']
+    raw_data_path: str=config['data-ingestion']['raw-data-path']
+    
 class DataIngestion:
 
     def __init__(self, test_size, seed):

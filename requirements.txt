@@ -4,4 +4,6 @@ scikit-learn
 statistics
 imbalanced-learn
 pickle5
+pyyaml
+regex
 -e .
