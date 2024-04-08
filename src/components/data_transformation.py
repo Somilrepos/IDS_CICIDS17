@@ -12,11 +12,12 @@ from sklearn.compose import ColumnTransformer
 from sklearn.preprocessing import StandardScaler
 from sklearn.feature_selection import VarianceThreshold
 from sklearn.pipeline import Pipeline
+from imblearn.pipeline import Pipeline as imPipeline
 from imblearn.over_sampling import SMOTE
 from imblearn.under_sampling import RandomUnderSampler
 from statistics import variance
 
-from utils import choose, save_object, load_config
+from src.utils import choose, save_object, load_config
 
 @dataclass
 class DataTransformationConfig:
@@ -24,7 +25,7 @@ class DataTransformationConfig:
     preprocessor_obj_file_path=config['data-transformation']['preprocessor-obj-file-path']
     SMOTE_pipeline_obj_file_path =config['data-transformation']['SMOTE-pipeline-obj-file-path']
     variance_threshold=config['data-transformation']['variance-threshold']
-    SMOTE_sampling_strategy =config['data-transformation']['SMOTE-sampling_strategy']
+    SMOTE_sampling_strategy =config['data-transformation']['SMOTE-sampling-strategy']
     undesampling_sampling_strategy =config['data-transformation']['undesampling-strategy']  
 
 class DataTransformation:
@@ -94,7 +95,7 @@ class DataTransformation:
             logging.info("Reading train and test complete")
 
 
-            preprocessing_obj=self.get_data_transformer_object()
+            preprocessing_obj=self.get_transformer_object()
             target_column_name=" Label"
 
             train_df[' Label'] = train_df[' Label'].apply(choose)
@@ -124,8 +125,8 @@ class DataTransformation:
             over = SMOTE(sampling_strategy=0.3)
             under = RandomUnderSampler(sampling_strategy=0.5)
             steps = [('o', over), ('u', under)]
-            pipeline = Pipeline(steps=steps)
-            Xtrain, ytrain = pipeline.fit_resample(Xtrain, ytrain)
+            imPipeline = imPipeline(steps=steps)
+            Xtrain, ytrain = imPipeline.fit_transform(Xtrain, ytrain)
 
             logging.info("Applying SMOTE and UnderSampling on training data completed.")
 
@@ -133,15 +134,15 @@ class DataTransformation:
             test_arr = np.c_[Xtest, np.array(ytest)]
 
             save_object(
-                file_path=self.data_transformation_config.preprocessor_obj_file_path,
+                file_path=self.DataTransformationConfig.preprocessor_obj_file_path,
                 obj=preprocessing_obj
             )
 
             logging.info("Preprocessing object saved.")
 
             save_object(
-                file_path=self.data_transformation_config.SMOTE_pipeline_obj_file_path,
-                obj=pipeline
+                file_path=self.DataTransformationConfig.SMOTE_pipeline_obj_file_path,
+                obj=imPipeline
             )
 
             logging.info("SMOTEpipeline object saved.")
@@ -149,8 +150,8 @@ class DataTransformation:
             return (
                 train_arr,
                 test_arr,
-                self.data_transformation_config.preprocessor_obj_file_path,
-                self.data_transformation_config.SMOTE_pipeline_obj_file_path
+                self.DataTransformationConfig.preprocessor_obj_file_path,
+                self.DataTransformationConfig.SMOTE_pipeline_obj_file_path
             )
             
             

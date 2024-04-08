@@ -30,11 +30,8 @@ class DataIngestion:
 
         try:
             
-            if not os.path.isdir(self.DataIngestionConfig.train_data_path):
-                os.makedirs(self.DataIngestionConfig.train_data_path)
-            
-            if not os.path.isdir(self.DataIngestionConfig.test_data_path):
-                os.makedirs(self.DataIngestionConfig.test_data_path)
+            if not os.path.isdir("artifacts"):
+                os.makedirs("artifacts")
             
             logging.info("Reading data as datafame")
             df = getData(self.DataIngestionConfig.raw_data_path)
