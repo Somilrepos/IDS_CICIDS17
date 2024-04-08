@@ -5,7 +5,7 @@ from src.exception import CustomException
 from src.logger import logging
 from dataclasses import dataclass
 
-import re
+import regex 
 import pandas as pd 
 import numpy as np
 from sklearn.model_selection import train_test_split
@@ -29,6 +29,13 @@ class DataIngestion:
     def initiate_data_ingestion(self):
 
         try:
+            
+            if not os.path.isdir(self.DataIngestionConfig.train_data_path):
+                os.makedirs(self.DataIngestionConfig.train_data_path)
+            
+            if not os.path.isdir(self.DataIngestionConfig.test_data_path):
+                os.makedirs(self.DataIngestionConfig.test_data_path)
+            
             logging.info("Reading data as datafame")
             df = getData(self.DataIngestionConfig.raw_data_path)
             logging.info("Reading data completed")
@@ -53,3 +60,7 @@ class DataIngestion:
         except Exception as e:
             raise CustomException(e, sys)
     
+    
+# if __name__ == "__main__":
+#     obj = DataIngestion(0.3, 42)
+#     obj.initiate_data_ingestion()

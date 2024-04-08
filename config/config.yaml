@@ -17,7 +17,7 @@ model-trainer:
   cross-validations: 10
 
   random-forest:
-    max-depth : [5,6,7],
+    max-depth : [5,6,7]
     min-samples-split : [50000, 60000]
     min-samples-leaf: [10000, 15000]
     n-estimators : [60,80,100]

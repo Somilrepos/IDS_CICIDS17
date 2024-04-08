@@ -1,6 +1,7 @@
 import os
 import sys
 
+import regex
 import numpy as np 
 import pandas as pd
 import pickle5 as pickle
@@ -22,7 +23,7 @@ def getData(path):
 
   for filename,data in dfs.items():
       data["WeekDay"] = np.char.array([filename.split("-")[0]]*len(data))
-      data["TimeOfDay"] = np.char.array([re.findall(r"[\w']+", filename)[2]]*len(data))
+      data["TimeOfDay"] = np.char.array([regex.findall(r"[\w']+", filename)[2]]*len(data))
       df = pd.concat([df,data],ignore_index=True)
 
   return df

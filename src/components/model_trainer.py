@@ -16,13 +16,7 @@ from src.utils import load_config
 @dataclass
 class ModelTrainerConfig:
     config = load_config()['model-trainer']
-    
-    # model_path: str=config['model-trainer']['model-path']
-    # seed: int=config['model-trainer']['random-seed']
-    # test_size: int=config['model-trainer']['test-size'] 
-    # cross_validations: int=config['model-trainer']['cross-validations'] 
-
-    
+        
 class ModelTrainer:
     
     def __init__(self):
@@ -112,7 +106,3 @@ class ModelTrainer:
             
         except Exception as e:
             raise CustomException(e, sys)
-    
-
-
-    
