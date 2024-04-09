@@ -15,7 +15,6 @@ from sklearn.pipeline import Pipeline
 from imblearn.pipeline import Pipeline as imPipeline
 from imblearn.over_sampling import SMOTE
 from imblearn.under_sampling import RandomUnderSampler
-from statistics import variance
 
 from src.utils import choose, save_object, load_config
 
@@ -33,6 +32,13 @@ class DataTransformation:
         self.DataTransformationConfig = DataTransformationConfig()
 
     def get_transformer_object(self):
+        """
+            Creates preprocessor pipeline object.
+            
+            Returns:
+                sklearn.pipeline object 
+        """
+        
         try:
             
             num_cols = [' Destination Port', ' Flow Duration', ' Total Fwd Packets',
@@ -85,7 +91,17 @@ class DataTransformation:
 
 
     def initiate_data_transformation(self, train_path, test_path):
-        
+        """Data preprocessing function
+
+        Args:
+            train_path (str): Path to training data
+            test_path (str): Path to test data
+
+        Returns:
+            train_arr (Numpy array): Processed training data
+            test_arr (Numpy array): Processes testing data
+            
+        """
         try:
             logging.info("Reading train and test initiated")
             
@@ -122,8 +138,8 @@ class DataTransformation:
 
             logging.info("Applying SMOTE and UnderSampling on training data.")
 
-            over = SMOTE(sampling_strategy=0.3)
-            under = RandomUnderSampler(sampling_strategy=0.5)
+            over = SMOTE(sampling_strategy=0.3) # type: ignore
+            under = RandomUnderSampler(sampling_strategy=0.5) # type: ignore
             steps = [('o', over), ('u', under)]
             imPipeline = imPipeline(steps=steps)
             Xtrain, ytrain = imPipeline.fit_transform(Xtrain, ytrain)
@@ -138,20 +154,18 @@ class DataTransformation:
                 obj=preprocessing_obj
             )
 
-            logging.info("Preprocessing object saved.")
+            logging.info(f"Preprocessing object saved at {self.DataTransformationConfig.preprocessor_obj_file_path}")
 
             save_object(
                 file_path=self.DataTransformationConfig.SMOTE_pipeline_obj_file_path,
                 obj=imPipeline
             )
 
-            logging.info("SMOTEpipeline object saved.")
+            logging.info(f"SMOTEpipeline object saved at {self.DataTransformationConfig.SMOTE_pipeline_obj_file_path}")
 
             return (
                 train_arr,
-                test_arr,
-                self.DataTransformationConfig.preprocessor_obj_file_path,
-                self.DataTransformationConfig.SMOTE_pipeline_obj_file_path
+                test_arr
             )
             
             

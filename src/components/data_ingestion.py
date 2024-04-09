@@ -27,7 +27,12 @@ class DataIngestion:
         self.seed = seed
 
     def initiate_data_ingestion(self):
+        """Data loading and splitting
 
+        Returns:
+            str: Path to training data
+            str: Path to test data
+        """
         try:
             
             if not os.path.isdir("artifacts"):

@@ -18,11 +18,24 @@ class ModelTrainerConfig:
     config = load_config()['model-trainer']
         
 class ModelTrainer:
-    
+
     def __init__(self):
         self.model_trainer_config=ModelTrainerConfig()
 
     def train_models(self, X, y, models, params, scoring, refit):
+        """ Training function to generate a model report based on given parameters
+
+        Args:
+            X (Numpy array): Input data
+            y (Numpy array): Output labels
+            models (dict[sklearn-model]): Set of models to train
+            params (dict[model-param]): Set of model training parameters 
+            scoring (dict[sklearn.metrics]): Scoring function for model evaluation
+            refit (str): Final model evaluation metric
+
+        Returns:
+            dict[model-train-result]: Set of model training results
+        """
         try:
             report = {}
 
@@ -31,8 +44,8 @@ class ModelTrainer:
                 para=params[list(models.keys())[i]]
 
                 gs = GridSearchCV(model, 
-                                  parameters=params, 
-                                  cv=self.model_trainer_config.cross_validations, 
+                                  param_grid=params, 
+                                  cv=self.model_trainer_config.config["cross-validations"], 
                                   scoring=scoring,
                                   refit=refit)
                 
@@ -59,6 +72,15 @@ class ModelTrainer:
     
     
     def initiate_model_trainer(self,train_array,test_array):
+        """Model trainer function for the given data.
+
+        Args:
+            train_array (Numpy array): Training data
+            test_array (Numpy array): Testing data
+            
+        Returns:
+            dict: training report
+        """
         try:
             
             X_train,y_train,X_test,y_test=(
@@ -85,23 +107,8 @@ class ModelTrainer:
                               scoring=scoring, 
                               refit=self.model_trainer_config.config['refit']
             )
-            
-            scoring_functions = {
-                "accuracy": accuracy_score(),
-                "f1": f1_score(),
-                "precision": precision_score(),
-                "recall": recall_score()
-            }
-            
-            eval_report = self.evaluate_models(X=X_test,
-                                y=y_test,
-                                scoring=scoring
-            )
-            
-            return (
-                train_report,
-                eval_report
-            )
+
+            return train_report
             
             
         except Exception as e:
