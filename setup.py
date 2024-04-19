@@ -20,8 +20,6 @@ def get_requirements(file_path:str)->List[str]:
 setup(
 name="IDS_CICIDS17",
 version="0.0.1",
-author="Somil",
-author_email="somil.chipguy121@gmail.com",
 packages=find_packages(),
 install_requires=get_requirements("requirements.txt")
 )
