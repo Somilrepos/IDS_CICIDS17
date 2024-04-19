@@ -3,7 +3,7 @@ import sys
 
 from src import logger
 from src.components.model_trainer import ModelTrainer
-from src.components.data_ingestion 
+from src.components.data_ingestion import DataIngestion
 from src.components.data_transformation import DataTransformation
 from src.exception import CustomException
 
